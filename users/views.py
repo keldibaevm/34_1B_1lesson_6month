@@ -5,7 +5,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import get_user_model
 
 from .serializers import RegisterSerializer, UserSerializer, LoginSerializer
-from .permissions import IsOwnerOrAdmin
+from .permissions import IsOwnerOrAdmin, IsOwner
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .google import get_google_auth_url, exchange_code_for_token, get_google_userinfo
 User = get_user_model()
@@ -72,8 +72,9 @@ class LogoutView(APIView):
             )
 
 class MeView(generics.RetrieveUpdateAPIView):
+    queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOwner]
     
     def get_object(self):
         return self.request.user
