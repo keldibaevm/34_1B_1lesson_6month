@@ -12,6 +12,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, verbose_name='email')
     first_name = models.CharField(max_length=50, blank=True, verbose_name='имя')
     last_name = models.CharField(max_length=50, blank=True, verbose_name='фамилия')
+    phone = models.CharField(max_length=20, blank=True, null=True, verbose_name='телефон')
     role = models.CharField(max_length=20, choices=Role.choices, default=Role.USER, verbose_name='роль')
     is_active =models.BooleanField(default=True, verbose_name='активный')
     is_staff = models.BooleanField(default=False, verbose_name='статус персонала')
